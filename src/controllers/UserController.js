@@ -53,15 +53,12 @@ module.exports = {
         try{
             const { id } = req.params;
             const { name, email, cellphone } = req.body;
-
-            //get user by id
-            const currentUser = await User.findById(id);
-
-            if(!currentUser) {
-                return res.status(404).json({message: "User identificator not found!"});
-            }
             
-            const user = await User.findByIdAndUpdate(id, { name, email, cellphone });
+            const user = await User.findByIdAndUpdate(
+                id,
+                { name, email, cellphone },
+                { new: true } //return user updated
+            );
 
             if(!user){
                 return res.status(404).json({message: "User not found!"})
